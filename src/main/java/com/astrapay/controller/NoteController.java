@@ -1,6 +1,6 @@
 package com.astrapay.controller;
 
-import com.astrapay.entity.Note;
+import com.astrapay.dto.NoteDto;
 import com.astrapay.service.NoteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +19,23 @@ public class NoteController {
     }
 
     @GetMapping
-    public List<Note> getAllNotes() {
+    public List<NoteDto> getAllNotes() {
         return noteService.getAllNotes();
     }
 
     @GetMapping("/{id}")
-    public Optional<Note> getNoteById(@PathVariable Integer id) {
+    public Optional<NoteDto> getNoteById(@PathVariable Integer id) {
         return noteService.getNoteById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Note createNote(@RequestBody Note note) {
+    public NoteDto createNote(@RequestBody NoteDto note) {
         return noteService.createOrUpdateNote(note);
     }
 
     @PutMapping("/{id}")
-    public Note updateNote(@PathVariable Integer id, @RequestBody Note note) {
+    public NoteDto updateNote(@PathVariable Integer id, @RequestBody NoteDto note) {
         note.setId(id);
         return noteService.createOrUpdateNote(note);
     }
