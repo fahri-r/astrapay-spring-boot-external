@@ -1,7 +1,7 @@
 package com.astrapay.service;
 
 import com.astrapay.entity.Note;
-import com.astrapay.repository.INoteRepository;
+import com.astrapay.repository.NoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Service
 public class NoteService {
-    private final INoteRepository noteRepository;
+    private final NoteRepository noteRepository;
 
-    public NoteService(INoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
     }
 
@@ -19,7 +19,7 @@ public class NoteService {
         return noteRepository.findAll();
     }
 
-    public Optional<Note> getNoteById(Long id) {
+    public Optional<Note> getNoteById(Integer id) {
         return noteRepository.findById(id);
     }
 
@@ -27,7 +27,7 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-    public void deleteNote(Long id) {
+    public void deleteNote(Integer id) {
         noteRepository.deleteById(id);
     }
 }
