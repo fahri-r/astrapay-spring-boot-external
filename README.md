@@ -38,11 +38,11 @@ yarn start
 
 #### GET /notes
 ![Get all notes](/img/notes-1.png "Get all notes")
-![Get all notes when empty](/img/notes-1.png "Get all notes when empty")
+![Get all notes when empty](/img/notes-2.png "Get all notes when empty")
 
 #### GET /notes/{id}
 ![Get note by id](/img/note-1.png "Get note by id")
-![Get note by id when not found](/img/note-1.png "Get note by id when not found")
+![Get note by id when not found](/img/note-2.png "Get note by id when not found")
 
 #### POST /notes
 ![Create note](/img/create-note-1.png "Create note")
