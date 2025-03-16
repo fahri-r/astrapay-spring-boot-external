@@ -15,7 +15,7 @@ public class NoteService {
     private final INoteRepository noteRepository;
     private final INoteMapper noteMapper;
 
-    public NoteService(INoteRepository noteRepository, @Qualifier("INoteMapper") INoteMapper noteMapper) {
+    public NoteService(INoteRepository noteRepository, @Qualifier("INoteMapperImpl") INoteMapper noteMapper) {
         this.noteRepository = noteRepository;
         this.noteMapper = noteMapper;
     }
