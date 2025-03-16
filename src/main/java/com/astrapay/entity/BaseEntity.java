@@ -13,6 +13,6 @@ import javax.persistence.MappedSuperclass;
 @Setter
 public class BaseEntity<T extends Number> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private T id;
 }
