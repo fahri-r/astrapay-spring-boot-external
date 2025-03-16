@@ -28,7 +28,7 @@ button {
 }
 
 .add-new-button {
-  width: 100px;
+  width: fit-content;
   border: thin solid rgb(21, 17, 17);
   border-radius: 10px;
   margin-top: 15px;

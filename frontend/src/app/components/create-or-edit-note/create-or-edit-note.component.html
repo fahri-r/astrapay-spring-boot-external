@@ -1,0 +1,50 @@
+<div class="canvas">
+  <div class="title">
+    <h2>
+      @if (id) {
+        Edit a Note
+      } @else {
+        Add a Note
+      }
+    </h2>
+    
+    @if (id) {
+      <button id="delete" type="button" mat-raised-button routerLink="" (click)="delete()">
+        Delete Note
+      </button>
+    }
+  </div>
+  <form [formGroup]="noteForm" (ngSubmit)="save()">
+    <div class="form-group">
+      <div class="form-title">
+        <mat-form-field style="width: 100%">
+          <mat-label>Title:</mat-label>
+          <input matInput id="note-title" formControlName="title" />
+        </mat-form-field>
+      </div>
+      <div class="form-text">
+        <mat-form-field style="width: 100%">
+          <mat-label>Text:</mat-label>
+          <textarea
+            matInput
+            id="note-text"
+            formControlName="content"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="footer">
+      <button
+        id="add-note"
+        mat-raised-button
+        type="submit"
+        [disabled]="!noteForm.valid"
+      >
+        Save Note
+      </button>
+      <button mat-raised-button color="primary" routerLink="">
+        Back to List
+      </button>
+    </div>
+  </form>
+</div>

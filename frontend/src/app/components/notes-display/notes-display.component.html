@@ -1,8 +1,11 @@
 <div class="canvas">
+  <nav>
+    <button class="add-new-button" routerLink="./create">Add New Note</button>
+  </nav>
   <ul class="notes">
     @for (note of notes; track $index) {
     <li class="note-card">
-      <button [routerLink]="['/note', note.id]">
+      <button [routerLink]="['/edit', note.id]">
         <span class="note-title">{{ note.title }}</span>
         <span class="note-text">{{ note.content }}</span>
       </button>

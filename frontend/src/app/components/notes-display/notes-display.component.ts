@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NoteService } from '../../services/note-service.service';
 import { NoteDto } from '../../dto/NoteDto';
@@ -10,14 +10,15 @@ import { NoteDto } from '../../dto/NoteDto';
   templateUrl: './notes-display.component.html',
   styleUrl: './notes-display.component.css',
 })
-export class NotesDisplayComponent implements OnInit {
+export class NotesDisplayComponent implements AfterViewInit {
   notes: NoteDto[] = [];
 
   constructor(private noteService: NoteService) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.notes = [];
     this.noteService.getNotes().subscribe(res => {
-      this.notes = res;
+      this.notes = res.data as NoteDto[];
     });
   }
 }
