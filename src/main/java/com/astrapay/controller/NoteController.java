@@ -1,5 +1,6 @@
 package com.astrapay.controller;
 
+import com.astrapay.dto.BaseApiDto;
 import com.astrapay.dto.NoteDto;
 import com.astrapay.service.NoteService;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/notes")
+@RequestMapping("/api/notes")
 public class NoteController {
 
     private final NoteService noteService;
@@ -19,23 +20,23 @@ public class NoteController {
     }
 
     @GetMapping
-    public List<NoteDto> getAllNotes() {
+    public BaseApiDto<List<NoteDto>> getAllNotes() {
         return noteService.getAllNotes();
     }
 
     @GetMapping("/{id}")
-    public Optional<NoteDto> getNoteById(@PathVariable Integer id) {
+    public BaseApiDto<Optional<NoteDto>> getNoteById(@PathVariable Integer id) {
         return noteService.getNoteById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public NoteDto createNote(@RequestBody NoteDto note) {
-        return noteService.createOrUpdateNote(note);
+    public BaseApiDto<NoteDto> createNote(@RequestBody NoteDto note) {
+            return noteService.createOrUpdateNote(note);
     }
 
     @PutMapping("/{id}")
-    public NoteDto updateNote(@PathVariable Integer id, @RequestBody NoteDto note) {
+    public BaseApiDto<NoteDto> updateNote(@PathVariable Integer id, @RequestBody NoteDto note) {
         note.setId(id);
         return noteService.createOrUpdateNote(note);
     }

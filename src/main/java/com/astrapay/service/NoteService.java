@@ -1,12 +1,16 @@
 package com.astrapay.service;
 
+import com.astrapay.dto.BaseApiDto;
 import com.astrapay.dto.NoteDto;
 import com.astrapay.dto.mapper.INoteMapper;
 import com.astrapay.entity.Note;
 import com.astrapay.repository.INoteRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,39 +24,58 @@ public class NoteService {
         this.noteMapper = noteMapper;
     }
 
-    public List<NoteDto> getAllNotes() {
+    public BaseApiDto<List<NoteDto>> getAllNotes() {
         var notes = noteRepository.findAll();
-        return noteMapper.toDto(notes);
+
+        if (notes.isEmpty()) {
+            return new BaseApiDto<>(new ArrayList<>(), "No Notes Added");
+        }
+        var noteDtos = noteMapper.toDto(notes);
+
+        return new BaseApiDto<>(noteDtos);
     }
 
-    public Optional<NoteDto> getNoteById(Integer id) {
-        return noteRepository.findById(id)
-                .map(noteMapper::toDto);
+    public BaseApiDto<Optional<NoteDto>> getNoteById(Integer id) {
+        var findNote = noteRepository.findById(id);
+        if (findNote.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note Not Found");
+        }
+
+        var noteDto = findNote.map(noteMapper::toDto);
+        return new BaseApiDto<>(noteDto);
     }
 
-    public NoteDto createOrUpdateNote(NoteDto noteDto) {
+    public BaseApiDto<NoteDto> createOrUpdateNote(NoteDto noteDto) {
         Note entity;
+        String message = null;
         if (noteDto.getId() == null) {
             // Create new note
             entity = noteMapper.toEntity(noteDto);
+            message = "Note Successfully Added";
+
         } else {
+            var findNote = noteRepository.findById(noteDto.getId());
+            if (findNote.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note Not Found");
+            }
             // Update existing note
-            entity = noteRepository.findById(noteDto.getId())
-                    .map(x -> {
-                        x.setTitle(noteDto.getTitle());
-                        x.setContent(noteDto.getContent());
-                        return x;
-                    })
-                    .orElseThrow(() -> new RuntimeException("Note not found"));
+            entity = noteMapper.toEntity(noteDto);
+            message = "Note Successfully Updated";
         }
 
         // Saving the entity
         var savedEntity = noteRepository.save(entity);
+        var noteDtoSaved = noteMapper.toDto(savedEntity);
 
-        return noteMapper.toDto(savedEntity);
+        return new BaseApiDto<>(noteDtoSaved, message);
     }
 
     public void deleteNote(Integer id) {
+        var findNote = noteRepository.findById(id);
+        if (findNote.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note Not Found");
+        }
+
         noteRepository.deleteById(id);
     }
 }
